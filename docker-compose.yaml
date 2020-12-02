@@ -6,7 +6,7 @@ networks:
 
 services:
   api.pokemon:
-    container_name: api.pokemon.local
+    container_name: training-api.pokemon.local
     build:
       context: backend/api.pokemon
       dockerfile: Dockerfile
@@ -29,10 +29,13 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    ports:
-      - "8080:80"
     volumes:
-      - ./frontend:/app
+      - './frontend:/app'
+      - '/app/node_modules'
+    ports:
+      - "8081:8080"
+    networks:
+      - training-network
 
   #############################
   # databases
