@@ -19,6 +19,7 @@ services:
     volumes:
       - ./backend/api.pokemon/api:/var/www/api
       - ./backend/api.pokemon/src:/var/www/src
+      - ./backend/api.pokemon/vendor:/var/www/vendor
     networks:
       - training-network
     links:
@@ -41,8 +42,8 @@ services:
   # databases
   #############################
   mongo.pokemon:
+    container_name: training-mongo.pokemon
     image: mongo:latest
-    container_name: mongo.pokemon
     volumes:
       - ./backend/api.pokemon/data:/var/data
     working_dir: /var/data
