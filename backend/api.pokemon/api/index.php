@@ -9,7 +9,12 @@ require __DIR__ . './../vendor/autoload.php';
 $app = AppFactory::create();
 
 $app->get('/', function (Request $request, Response $response, $args) {
-    $response->getBody()->write("Hello world DEDEDEDE!");
+    $response->getBody()->write("Hello world PERSONA 5!");
+    return $response;
+});
+
+$app->get('/pokemon', function (Request $request, Response $response, $args) {
+    $response->getBody()->write("is this good boss?");
     return $response;
 });
 
