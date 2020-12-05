@@ -13,4 +13,9 @@ $app->get('/', function (Request $request, Response $response, $args) {
     return $response;
 });
 
+$app->get('/pokemon', function (Request $request, Response $response, $args) {
+    $response->getBody()->write("pokemon");
+    return $response;
+});
+
 $app->run();
