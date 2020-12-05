@@ -13,9 +13,4 @@ $app->get('/', function (Request $request, Response $response, $args) {
     return $response;
 });
 
-$app->get('/pokemon', function (Request $request, Response $response, $args) {
-    $response->getBody()->write("is this good boss?");
-    return $response;
-});
-
 $app->run();
