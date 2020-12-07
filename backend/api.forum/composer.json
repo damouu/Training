@@ -22,7 +22,7 @@
     },
     "autoload-dev": {
         "classmap": [
-            ""
+            "tests/"
         ]
     },
     "config": {
