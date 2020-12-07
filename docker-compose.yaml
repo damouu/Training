@@ -6,7 +6,7 @@ networks:
 
 services:
   api.pokemon:
-    container_name: api.pokemon.local
+    container_name: training-api.pokemon.local
     build:
       context: backend/api.pokemon
       dockerfile: Dockerfile
@@ -19,6 +19,7 @@ services:
     volumes:
       - ./backend/api.pokemon/api:/var/www/api
       - ./backend/api.pokemon/src:/var/www/src
+      - ./backend/api.pokemon/vendor:/var/www/vendor
     networks:
       - training-network
     links:
@@ -29,10 +30,13 @@ services:
     build:
       context: ./frontend
       dockerfile: Dockerfile
-    ports:
-      - "8080:80"
     volumes:
-      - ./frontend:/app
+      - './frontend:/app'
+      - '/app/node_modules'
+    ports:
+      - "8081:8080"
+    networks:
+      - training-network
 
   api.forum:
     container_name: api.forum.local
@@ -56,6 +60,7 @@ services:
   # databases
   #############################
   mongo.pokemon:
+    container_name: training-mongo.pokemon
     image: mongo:latest
     restart: always
     container_name: mongo.pokemon
