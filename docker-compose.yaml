@@ -60,7 +60,6 @@ services:
   # databases
   #############################
   mongo.pokemon:
-    container_name: training-mongo.pokemon
     image: mongo:latest
     restart: always
     container_name: mongo.pokemon
