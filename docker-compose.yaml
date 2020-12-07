@@ -38,12 +38,32 @@ services:
     networks:
       - training-network
 
+  api.forum:
+    container_name: api.forum.local
+    build:
+      context: backend/api.forum
+      dockerfile: Dockerfile
+    environment:
+      - VHOST_HOSTNAME=api.forum.local
+      - VHOST_DOCROOT=/var/www/public
+    ports:
+      - "19280:80"
+      - "19243:443"
+    volumes:
+      - ./backend/api.forum/:/var/www/
+    networks:
+      - training-network
+    links:
+      - postgres.forum:dbcat
+
   #############################
   # databases
   #############################
   mongo.pokemon:
     container_name: training-mongo.pokemon
     image: mongo:latest
+    restart: always
+    container_name: mongo.pokemon
     volumes:
       - ./backend/api.pokemon/data:/var/data
     working_dir: /var/data
@@ -51,3 +71,16 @@ services:
       - training-network
     ports:
       - 27018:27017
+
+  postgres.forum:
+    image: postgres:alpine
+    restart: always
+    container_name: postgres.forum
+    environment:
+      POSTGRES_USER: forum
+      POSTGRES_PASSWORD: forum
+      POSTGRES_DB: forum
+    networks:
+      - training-network
+    ports:
+      - 5433:5432
