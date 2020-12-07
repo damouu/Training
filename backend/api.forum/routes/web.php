@@ -1,6 +1,6 @@
 <?php
 
-/** @var Router $router */
+/** @var \Laravel\Lumen\Routing\Router $router */
 
 /*
 |--------------------------------------------------------------------------
@@ -13,8 +13,6 @@
 |
 */
 
-use Laravel\Lumen\Routing\Router;
-
 $router->get('/', function () use ($router) {
-    return response()->json($router->app->version());
+    return $router->app->version();
 });
