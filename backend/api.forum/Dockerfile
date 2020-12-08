@@ -7,3 +7,4 @@ COPY composer.json /var/www/composer.json
 RUN composer update
 
 RUN composer install
+ dede
