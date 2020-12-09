@@ -12,21 +12,19 @@ services:
       dockerfile: Dockerfile
     environment:
       - VHOST_HOSTNAME=api.pokemon.local
-      - VHOST_DOCROOT=/var/www/api
+      - VHOST_DOCROOT=/var/www/html/api.pokemon/
     ports:
       - "19180:80"
       - "19143:443"
     volumes:
-      - ./backend/api.pokemon/api:/var/www/api
-      - ./backend/api.pokemon/src:/var/www/src
-      - ./backend/api.pokemon/vendor:/var/www/vendor
+      - ./backend/api.pokemon/:/var/www/html/api.pokemon/public/
     networks:
       - training-network
     links:
       - mongo.pokemon:dbcat
 
   front-end:
-    container_name: training-vuejs
+    container_name: training-front-end
     build:
       context: ./frontend
       dockerfile: Dockerfile
@@ -39,18 +37,18 @@ services:
       - training-network
 
   api.forum:
-    container_name: api.forum.local
+    container_name: training-api.forum.local
     build:
       context: backend/api.forum
       dockerfile: Dockerfile
     environment:
       - VHOST_HOSTNAME=api.forum.local
-      - VHOST_DOCROOT=/var/www/public
+      - VHOST_DOCROOT=/var/www/html/api.forum/public/
     ports:
       - "19280:80"
       - "19243:443"
     volumes:
-      - ./backend/api.forum/:/var/www/
+      - ./backend/api.forum/:/var/www/html/api.forum/
     networks:
       - training-network
     links:
