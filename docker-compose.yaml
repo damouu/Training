@@ -17,7 +17,7 @@ services:
       - "19180:80"
       - "19143:443"
     volumes:
-      - ./backend/api.pokemon/:/var/www/html/api.pokemon/public/
+      - ./backend/api.pokemon/:/var/www/html/api.pokemon/
     networks:
       - training-network
     links:
