@@ -62,7 +62,7 @@ services:
     restart: always
     container_name: mongo.pokemon
     volumes:
-      - ./backend/api.pokemon/data:/var/data
+      - ./backend/api.pokemon/resources/seeds/:/var/data
     working_dir: /var/data
     networks:
       - training-network
