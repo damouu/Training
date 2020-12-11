@@ -2,7 +2,6 @@
 
 namespace App\pokemon\src\Action;
 
-use MongoClient;
 use MongoDB\Client;
 use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
@@ -18,13 +17,17 @@ class PokemonController
         $this->container = $container;
     }
 
-    public function nujabes(Response $response, Request $request, $args)
+    public function getByQueryParams(Response $response, Request $request, $args): Response
     {
-        $c = new Client("mongodb://pokemon");
-        $pokemon = $c->selectDatabase('pokemon')->selectCollection('pokemons')->findOne(['name' => 'Weedle']);
+        $queryParams = $request->getQueryParams();
         try {
+            $c = new Client("mongodb://pokemon");
+            $pokemon = $c->selectDatabase('pokemon')
+                ->selectCollection('pokemons')
+                ->findOne(['id' => $queryParams['id']], ['projection' => ['name' => 1, 'type' => 1]]);
             $response->getBody()->write(json_encode($pokemon, JSON_THROW_ON_ERROR));
-        } catch (\JsonException $e) {
+        } catch (\MongoConnectionException | \JsonException $e) {
+            die('error connection with database');
         }
         return $response;
     }

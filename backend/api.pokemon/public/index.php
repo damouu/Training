@@ -17,8 +17,8 @@ $app->get('/', function (Request $request, Response $response, array $args) {
     return $response;
 });
 
-$app->get('/php[/]', function (Request $request, Response $response, array $args) {
-    return (new \App\pokemon\src\Action\PokemonController($this))->nujabes($response, $request, $args);
+$app->get('/pokemon[/]', function (Request $request, Response $response, array $args) {
+    return (new \App\pokemon\src\Action\PokemonController($this))->getByQueryParams($response, $request, $args);
 });
 
 $app->run();
