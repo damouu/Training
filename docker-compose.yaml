@@ -21,7 +21,7 @@ services:
     networks:
       - training-network
     links:
-      - mongo.pokemon:dbcat
+      - mongo.pokemon:pokemon
 
   front-end:
     container_name: training-front-end
@@ -59,7 +59,6 @@ services:
   #############################
   mongo.pokemon:
     image: mongo:latest
-    restart: always
     container_name: mongo.pokemon
     volumes:
       - ./backend/api.pokemon/resources/seeds/:/var/data
