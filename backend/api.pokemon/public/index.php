@@ -12,13 +12,9 @@ $container = new Container();
 AppFactory::setContainer($container);
 $app = AppFactory::create();
 
-$app->get('/', function (Request $request, Response $response, array $args) {
-    $response->getBody()->write("Hello, dededede");
-    return $response;
-});
 
-$app->get('/pokemon[/]', function (Request $request, Response $response, array $args) {
-    return (new \App\pokemon\src\Action\PokemonController($this))->getByQueryParams($response, $request, $args);
+$app->get('/pokemon/{id}', function (Request $request, Response $response, array $args) {
+    return (new \App\pokemon\src\Action\PokemonController($this))->findById($response, $request, $args);
 });
 
 $app->run();
