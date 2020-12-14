@@ -17,4 +17,8 @@ $app->get('/pokemon/{id}', function (Request $request, Response $response, array
     return (new \App\pokemon\src\Action\PokemonController($this))->findById($response, $request, $args);
 });
 
+$app->get('/pokemon[/]', function (Request $request, Response $response, array $args) {
+    return (new \App\pokemon\src\Action\PokemonController($this))->getQueryParams($response, $request, $args);
+});
+
 $app->run();

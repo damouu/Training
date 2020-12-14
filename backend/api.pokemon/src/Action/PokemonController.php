@@ -40,4 +40,25 @@ class PokemonController
         return $response;
     }
 
+    public function getQueryParams(Response $response, Request $request, $args): Response
+    {
+        $getQueryParams = $request->getQueryParams();
+        $keysGetQueryParams = array_keys($getQueryParams);
+        $c = new Client(self::MONGO_POKEMON);
+        foreach ($keysGetQueryParams as $key) {
+            $pokemons = $c->selectDatabase('pokemon')
+                ->selectCollection('pokemons')
+                ->find([$key => ucfirst($getQueryParams[$key])],
+                    ['limit' => 10, 'projection' => ['id' => 1, 'img' => 1, 'name' => 1]]);
+
+        }
+        foreach ($pokemons as $pokemon) {
+            $data["data"][] = $pokemon;
+        }
+        $response->withStatus(200)
+            ->withHeader('Content-Type', 'application/json')
+            ->getBody()->write(json_encode(($data), JSON_THROW_ON_ERROR));
+        return $response;
+    }
+
 }
