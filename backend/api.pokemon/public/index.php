@@ -2,23 +2,19 @@
 
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
-use Slim\Factory\AppFactory;
-use DI\Container;
-
+use App\pokemon\src\Action\PokemonController;
 
 require __DIR__ . './../vendor/autoload.php';
 
-$container = new Container();
-AppFactory::setContainer($container);
-$app = AppFactory::create();
+$app = \DI\Bridge\Slim\Bridge::create();
 
 
-$app->get('/pokemon/{id}', function (Request $request, Response $response, array $args) {
-    return (new \App\pokemon\src\Action\PokemonController($this))->findById($response, $request, $args);
+$app->get('/pokemon/{id}[/]', function (Request $request, Response $response, $id, PokemonController $pokemonController) {
+    return $pokemonController->findById($request, $response, $id);
 });
 
-$app->get('/pokemon[/]', function (Request $request, Response $response, array $args) {
-    return (new \App\pokemon\src\Action\PokemonController($this))->getQueryParams($response, $request, $args);
+$app->get('/search', function (Request $request, Response $response, PokemonController $pokemonController) {
+    return $pokemonController->getQueryParams($request, $response);
 });
 
 $app->run();

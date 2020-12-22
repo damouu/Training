@@ -1,52 +1,42 @@
 <?php
 
 namespace App\pokemon\src\Action;
-error_reporting(0);
 
-use JsonException;
 use MongoDB\Client;
-use Psr\Container\ContainerInterface;
 use Psr\Http\Message\ResponseInterface as Response;
 use Psr\Http\Message\ServerRequestInterface as Request;
 
 
 class PokemonController
 {
-    protected ContainerInterface $container;
+    protected $Mongoclient;
 
-    protected const MONGO_POKEMON = "mongodb://pokemon";
-
-
-    public function __construct(ContainerInterface $container)
+    public function __construct(Client $Mongoclient)
     {
-        $this->container = $container;
+        $this->Mongoclient = new $Mongoclient('mongodb://pokemon');
     }
 
-    public function findById(Response $response, Request $request, $args): Response
+
+    public function findById(Request $request, Response $response, $id): Response
     {
-        $c = new Client(self::MONGO_POKEMON);
-        $pokemon = $c->selectDatabase('pokemon')
+        $pokemon = $this->Mongoclient->selectDatabase('pokemon')
             ->selectCollection('pokemons')
             ->findOne(
-                ['id' => $args['id']],
+                ['id' => $id],
                 ['projection' => ['id' => 1, 'img' => 1, 'name' => 1]]);
-        try {
-            $response->withStatus(200)
-                ->withHeader('Content-Type', 'application/json')
-                ->getBody()->write(json_encode($pokemon, JSON_THROW_ON_ERROR));
-        } catch (JsonException $e) {
-            die($e->getMessage());
-        }
+        $response->withStatus(200)
+            ->withHeader('Content-Type', 'application/json')
+            ->getBody()->write(json_encode($pokemon, JSON_THROW_ON_ERROR));
         return $response;
     }
 
-    public function getQueryParams(Response $response, Request $request, $args): Response
+    public function getQueryParams(Request $request, Response $response): Response
     {
         $getQueryParams = $request->getQueryParams();
         $keysGetQueryParams = array_keys($getQueryParams);
-        $c = new Client(self::MONGO_POKEMON);
         foreach ($keysGetQueryParams as $key) {
-            $pokemons = $c->selectDatabase('pokemon')
+            $pokemons = $this->Mongoclient
+                ->selectDatabase('pokemon')
                 ->selectCollection('pokemons')
                 ->find([$key => ucfirst($getQueryParams[$key])],
                     ['limit' => 10, 'projection' => ['id' => 1, 'img' => 1, 'name' => 1]]);
