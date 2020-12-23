@@ -26,11 +26,11 @@ services:
   front-end:
     container_name: training-front-end
     build:
-      context: ./frontend
+      context: ./frontend/app
       dockerfile: Dockerfile
     volumes:
-      - './frontend:/app'
-      - '/app/node_modules'
+      - './frontend/app:/app'
+      - '/frontend/app/node_modules'
     ports:
       - "8081:8080"
     networks:
