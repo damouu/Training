@@ -1,6 +1,7 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import Home from '../views/Home.vue'
+import CurrencyRate from "@/components/CurrencyRate";
 
 Vue.use(VueRouter)
 
@@ -14,6 +15,11 @@ const routes = [
         path: '/about',
         name: 'About',
         component: () => import(/* webpackChunkName: "about" */ '../views/About.vue')
+    },
+    {
+        path: '/currency',
+        name: 'Currency',
+        component: CurrencyRate
     }
 ]
 
