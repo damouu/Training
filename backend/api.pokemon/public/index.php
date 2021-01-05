@@ -17,4 +17,10 @@ $app->get('/search', function (Request $request, Response $response, PokemonCont
     return $pokemonController->getQueryParams($request, $response);
 });
 
+$app->get('/', function (Request $request, Response $response) {
+    $response->withStatus(200)
+        ->withHeader('Content-Type', 'application/json')
+        ->getBody()->write("le salam");
+    return $response;
+});
 $app->run();
