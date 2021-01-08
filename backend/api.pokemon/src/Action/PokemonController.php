@@ -32,7 +32,6 @@ class PokemonController
 
     public function getQueryParams(Request $request, Response $response): Response
     {
-        //dede
         $getQueryParams = $request->getQueryParams();
         $keysGetQueryParams = array_keys($getQueryParams);
         foreach ($keysGetQueryParams as $key) {
