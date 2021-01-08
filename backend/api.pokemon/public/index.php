@@ -17,9 +17,4 @@ $app->get('/search', function (Request $request, Response $response, PokemonCont
     return $pokemonController->getQueryParams($request, $response);
 });
 
-$app->get('/dede', function (Request $request, Response $response) {
-    $response->getBody()->write("hi dede");
-    return $response;
-});
-
 $app->run();
